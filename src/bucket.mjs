@@ -10,12 +10,12 @@ export default class Bucket {
     this.revalidating = false
   }
   
-  async revalidate (fetcher = fetch) {
+  async revalidate (revalidator = fetch) {
     if (this.revalidating) {
       return
     }
     this.revalidating = true
-    const content = fetcher (this.key)
+    const content = revalidator (this.key)
     this.content = await content
     this.revalidated = Date.now ()
     this.revalidating = false

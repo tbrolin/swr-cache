@@ -1,4 +1,18 @@
 {
   "name": "swr-cache",
-  "packageManager": "yarn@4.5.1"
+  "packageManager": "yarn@4.5.1",
+  "type": "module",
+  "jest": {
+    "testRegex": "((\\.|/)(test|spec))\\.mjs$",
+    "transform": {},
+    "moduleFileExtensions": ["js", "mjs"],
+    "testEnvironment": "node",
+    "transformIgnorePatterns": []
+  },
+  "dependencies": {
+    "jest": "^29.7.0"
+  },
+  "scripts": {
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js"
+  }
 }

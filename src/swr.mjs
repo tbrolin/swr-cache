@@ -27,28 +27,33 @@ export default class SWR {
     }
   }
 
-  async get (key, fetcher = fetch) {
+  async get(key, revalidator = fetch, {
+    freshness,
+    staleness,
+  } = {}) {
     let bucket = this.buckets.get (key)
     if (!bucket) {
       bucket = new Bucket ({ key })
       this.buckets.set (key, bucket)
       this.limitSize ()
+    } else {
+      this.useKey (key)  
     }
-    this.useKey (key)
+
     bucket.update ({
       now: Date.now (),
-      freshness: this.freshness,
-      staleness: this.staleness,
+      freshness: freshness || this.freshness,
+      staleness: staleness || this.staleness,
     })
     if (bucket.isFresh) {
       return bucket.content
     }
     if (bucket.isStale) {
-      bucket.revalidate (fetcher)
+      bucket.revalidate (revalidator)
       return bucket.content
     }
     if (bucket.isEmpty) {
-      await bucket.revalidate (fetcher)
+      await bucket.revalidate (revalidator)
       return bucket.content
     }
   }
