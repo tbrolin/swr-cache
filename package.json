@@ -3,17 +3,45 @@
   "version": "1.0.0",
   "description": "An in-memory Stale-While-Revalidate (SWR) cache for JavaScript.",
   "license": "MIT",
+  "author": "",
+  "homepage": "",
+  "repository": "",
+  "keywords": [
+    "cache",
+    "swr",
+    "stale-while-revalidate",
+    "lru",
+    "in-memory"
+  ],
   "packageManager": "yarn@4.5.1",
   "type": "module",
+  "main": "./src/index.mjs",
+  "types": "./index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./src/index.mjs",
+      "types": "./index.d.ts"
+    }
+  },
+  "files": [
+    "src/bucket.mjs",
+    "src/swr.mjs",
+    "src/index.mjs",
+    "index.d.ts",
+    "README.md",
+    "LICENSE"
+  ],
   "engines": {
     "node": ">=18.0.0"
   },
   "scripts": {
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
     "test:watch": "node --experimental-vm-modules node_modules/jest/bin/jest.js --watch",
-    "test:coverage": "node --experimental-vm-modules node_modules/jest/bin/jest.js --coverage"
+    "test:coverage": "node --experimental-vm-modules node_modules/jest/bin/jest.js --coverage",
+    "typecheck": "tsc --strict --noEmit --target ES2022 --moduleResolution bundler --allowImportingTsExtensions src/swr.typecheck.ts"
   },
   "devDependencies": {
-    "jest": "^30.3.0"
+    "jest": "^30.3.0",
+    "typescript": "^5.9.3"
   }
 }
