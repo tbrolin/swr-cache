@@ -848,6 +848,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@tobiasbrolin/swr-cache@workspace:.":
+  version: 0.0.0-use.local
+  resolution: "@tobiasbrolin/swr-cache@workspace:."
+  dependencies:
+    jest: "npm:^30.3.0"
+    typescript: "npm:^5.9.3"
+  languageName: unknown
+  linkType: soft
+
 "@tybys/wasm-util@npm:^0.10.0":
   version: 0.10.1
   resolution: "@tybys/wasm-util@npm:0.10.1"
@@ -3220,15 +3229,6 @@ __metadata:
   checksum: 10c0/ea1d3c275dd604c974670f63943ed9bd83623edc102430c05adb8efc56ba492746b6e95386e7831b872ec3807fd89dd8eb43f735195f37b5ec343e4234cc7e89
   languageName: node
   linkType: hard
-
-"swr-cache@workspace:.":
-  version: 0.0.0-use.local
-  resolution: "swr-cache@workspace:."
-  dependencies:
-    jest: "npm:^30.3.0"
-    typescript: "npm:^5.9.3"
-  languageName: unknown
-  linkType: soft
 
 "synckit@npm:^0.11.8":
   version: 0.11.12
