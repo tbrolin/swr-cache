@@ -6,7 +6,7 @@ on:
 
 permissions:
   contents: read
-  id-token: write # needed for npm provenance
+  id-token: write # required for OIDC Trusted Publishing
 
 jobs:
   publish:
@@ -40,7 +40,9 @@ jobs:
       - name: Install dependencies
         run: yarn install --immutable
 
-      - name: Publish package
-        run: yarn npm publish --access public
-        env:
-          YARN_NPM_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - name: Publish to npm
+        uses: npm/publish@v1
+        with:
+          tag: latest
+          access: public
+          provenance: true
