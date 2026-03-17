@@ -3,14 +3,14 @@
   "version": "1.0.0",
   "description": "An in-memory Stale-While-Revalidate (SWR) cache for JavaScript.",
   "license": "MIT",
-  "author": "YOUR_USERNAME",
-  "homepage": "https://github.com/YOUR_USERNAME/swr-cache#readme",
+  "author": "tbrolin",
+  "homepage": "https://github.com/tbrolin/swr-cache#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/YOUR_USERNAME/swr-cache.git"
+    "url": "git+ssh://git@github.com/tbrolin/swr-cache.git"
   },
   "bugs": {
-    "url": "https://github.com/YOUR_USERNAME/swr-cache/issues"
+    "url": "https://github.com/tbrolin/swr-cache/issues"
   },
   "keywords": [
     "cache",
