@@ -1,18 +1,19 @@
 {
   "name": "swr-cache",
+  "version": "1.0.0",
+  "description": "An in-memory Stale-While-Revalidate (SWR) cache for JavaScript.",
+  "license": "MIT",
   "packageManager": "yarn@4.5.1",
   "type": "module",
-  "jest": {
-    "testRegex": "((\\.|/)(test|spec))\\.mjs$",
-    "transform": {},
-    "moduleFileExtensions": ["js", "mjs"],
-    "testEnvironment": "node",
-    "transformIgnorePatterns": []
-  },
-  "dependencies": {
-    "jest": "^29.7.0"
+  "engines": {
+    "node": ">=18.0.0"
   },
   "scripts": {
-    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js"
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
+    "test:watch": "node --experimental-vm-modules node_modules/jest/bin/jest.js --watch",
+    "test:coverage": "node --experimental-vm-modules node_modules/jest/bin/jest.js --coverage"
+  },
+  "devDependencies": {
+    "jest": "^30.3.0"
   }
 }
