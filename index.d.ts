@@ -297,13 +297,13 @@ export declare class Bucket<T = unknown> {
  *   and cast at the call site, or use per-call generics on `get<U>()`.
  *
  * @example <caption>Basic usage with the default fetch revalidator</caption>
- * import SWR from 'swr-cache'
+ * import SWR from '@tbrolin/swr-cache'
  *
  * const cache = new SWR<Response>({ maxAge: 30_000, staleWhileRevalidate: 60_000 })
  * const res = await cache.get('https://api.example.com/users')
  *
  * @example <caption>Custom revalidator returning typed data</caption>
- * import SWR from 'swr-cache'
+ * import SWR from '@tbrolin/swr-cache'
  *
  * interface User { id: number; name: string }
  *

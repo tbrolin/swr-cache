@@ -1,5 +1,5 @@
 {
-  "name": "swr-cache",
+  "name": "@tbrolin/swr-cache",
   "version": "1.0.0",
   "description": "An in-memory Stale-While-Revalidate (SWR) cache for JavaScript.",
   "license": "MIT",
