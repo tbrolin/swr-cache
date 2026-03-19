@@ -1,4 +1,4 @@
-# swr-cache
+# @tobiasbrolin/swr-cache
 
 An in-memory [Stale-While-Revalidate](https://web.dev/stale-while-revalidate/) cache for JavaScript.
 
@@ -57,26 +57,20 @@ The stale-while-revalidate pattern gives you the best of both worlds: responses 
 
 ## Installation
 
-This is not published to npm. Clone the repository and copy the files you need into your project:
-
 ```bash
-git clone https://github.com/example/swr-cache.git
-cp swr-cache/src/swr.mjs   your-project/src/
-cp swr-cache/src/bucket.mjs your-project/src/
+npm install @tobiasbrolin/swr-cache
+# or
+yarn add @tobiasbrolin/swr-cache
 ```
 
-Install dev dependencies (only needed to run the tests):
-
-```bash
-npm install
-```
+TypeScript types are included — no separate `@types` package needed.
 
 ---
 
 ## Quick start
 
 ```js
-import SWR from './swr.mjs'
+import SWR from '@tobiasbrolin/swr-cache'
 
 const cache = new SWR({
   maxAge: 30_000,              // serve from cache for 30 s
@@ -103,7 +97,7 @@ const users3 = await cache.get('https://api.example.com/users')
 The default revalidator is the global `fetch`, so a URL is all you need as a key. If you want the parsed JSON body rather than the raw `Response` object, supply a custom revalidator:
 
 ```js
-import SWR from './swr.mjs'
+import SWR from '@tobiasbrolin/swr-cache'
 
 const cache = new SWR({ maxAge: 60_000, staleWhileRevalidate: 120_000 })
 
@@ -121,10 +115,10 @@ console.log(posts[0].title)
 
 ### Custom revalidator (database query)
 
-The revalidator can be any async function that accepts a key string and returns a value. This makes `swr-cache` useful far beyond HTTP — wrap database queries, filesystem reads, or expensive computations.
+The revalidator can be any async function that accepts a key string and returns a value. This makes `@tobiasbrolin/swr-cache` useful far beyond HTTP — wrap database queries, filesystem reads, or expensive computations.
 
 ```js
-import SWR from './swr.mjs'
+import SWR from '@tobiasbrolin/swr-cache'
 import db from './db.mjs'
 
 const cache = new SWR({ maxAge: 30_000, staleWhileRevalidate: 30_000 })
@@ -146,7 +140,7 @@ console.log(user.name)
 One `SWR` instance can hold entries for many different keys at once. Each key is cached and revalidated independently.
 
 ```js
-import SWR from './swr.mjs'
+import SWR from '@tobiasbrolin/swr-cache'
 
 const cache = new SWR({ maxAge: 30_000, staleWhileRevalidate: 30_000 })
 
@@ -172,7 +166,7 @@ const [users, posts, comments] = await Promise.all([
 Different data has different freshness requirements. You can override `maxAge` and `staleWhileRevalidate` per `get()` call without creating separate cache instances.
 
 ```js
-import SWR from './swr.mjs'
+import SWR from '@tobiasbrolin/swr-cache'
 
 const cache = new SWR({ maxAge: 60_000, staleWhileRevalidate: 60_000 })
 
@@ -201,7 +195,7 @@ const profile = await cache.get('https://api.example.com/me', fetchJSON, {
 When you mutate data on the server (POST / PUT / DELETE) you usually want the next read to fetch fresh data immediately rather than serving a stale cached copy.
 
 ```js
-import SWR from './swr.mjs'
+import SWR from '@tobiasbrolin/swr-cache'
 
 const cache = new SWR({ maxAge: 60_000, staleWhileRevalidate: 30_000 })
 
@@ -249,7 +243,7 @@ function onLogout() {
 By default, errors that occur during background (stale) revalidation are silently swallowed — the caller already received the stale value and there is nobody to propagate the error to. Use the `onError` hook to log or report these failures.
 
 ```js
-import SWR from './swr.mjs'
+import SWR from '@tobiasbrolin/swr-cache'
 
 const cache = new SWR({
   maxAge: 30_000,
@@ -279,7 +273,7 @@ When the cache is **empty** and the revalidator fails, `get()` resolves with `nu
 The `onRevalidate` hook fires after every successful revalidation. Use it to log cache refreshes, warm secondary caches, or broadcast updates to other parts of your application.
 
 ```js
-import SWR from './swr.mjs'
+import SWR from '@tobiasbrolin/swr-cache'
 
 const cache = new SWR({
   maxAge: 10_000,
@@ -297,7 +291,7 @@ const cache = new SWR({
 Use `has()` before calling `get()` to distinguish hits from misses for metrics or debugging:
 
 ```js
-import SWR from './swr.mjs'
+import SWR from '@tobiasbrolin/swr-cache'
 
 const cache = new SWR({ maxAge: 60_000, staleWhileRevalidate: 30_000 })
 const metrics = { hits: 0, misses: 0 }
@@ -321,21 +315,21 @@ Creates a new cache instance.
 
 ```js
 const cache = new SWR({
-  maxAge:              60_000,  // ms — default 60 000
-  staleWhileRevalidate: 30_000, // ms — default 30 000
-  maxSize:             10_000,  // entries — default 10 000
-  onError:             null,    // (key, error) => void
-  onRevalidate:        null,    // (key, content) => void
+  maxAge:               60_000,  // ms — default 60 000
+  staleWhileRevalidate: 30_000,  // ms — default 30 000
+  maxSize:              10_000,  // entries — default 10 000
+  onError:              null,    // (key, error) => void
+  onRevalidate:         null,    // (key, content) => void
 })
 ```
 
-| Option                  | Type                            | Default    | Description |
-|-------------------------|---------------------------------|------------|-------------|
-| `maxAge`                | `number`                        | `60_000`   | Milliseconds a cached value stays **fresh**. |
-| `staleWhileRevalidate`  | `number`                        | `30_000`   | Milliseconds **after** `maxAge` during which stale values are still served while revalidating in the background. |
-| `maxSize`               | `number`                        | `10_000`   | Maximum number of entries. Least-recently-used entries are evicted when this limit is exceeded. |
-| `onError`               | `(key, error) => void \| null`  | `null`     | Called whenever a revalidator throws or rejects. |
-| `onRevalidate`          | `(key, content) => void \| null`| `null`     | Called after every successful revalidation. |
+| Option                  | Type                             | Default    | Description |
+|-------------------------|----------------------------------|------------|-------------|
+| `maxAge`                | `number`                         | `60_000`   | Milliseconds a cached value stays **fresh**. |
+| `staleWhileRevalidate`  | `number`                         | `30_000`   | Milliseconds **after** `maxAge` during which stale values are still served while revalidating in the background. |
+| `maxSize`               | `number`                         | `10_000`   | Maximum number of entries. Least-recently-used entries are evicted when this limit is exceeded. |
+| `onError`               | `(key, error) => void \| null`   | `null`     | Called whenever a revalidator throws or rejects. |
+| `onRevalidate`          | `(key, content) => void \| null` | `null`     | Called after every successful revalidation. |
 
 ---
 
@@ -349,12 +343,12 @@ const value = await cache.get(key, revalidator)
 const value = await cache.get(key, revalidator, { maxAge, staleWhileRevalidate })
 ```
 
-| Parameter              | Type         | Default  | Description |
-|------------------------|--------------|----------|-------------|
-| `key`                  | `string`     | —        | Cache key. When using the default revalidator this should be a URL. |
-| `revalidator`          | `async (key: string) => any` | `fetch` | Called with `key` to produce a fresh value. |
-| `options.maxAge`       | `number`     | Instance default | Per-call override for `maxAge`. |
-| `options.staleWhileRevalidate` | `number` | Instance default | Per-call override for `staleWhileRevalidate`. |
+| Parameter                        | Type                         | Default          | Description |
+|----------------------------------|------------------------------|------------------|-------------|
+| `key`                            | `string`                     | —                | Cache key. When using the default revalidator this should be a URL. |
+| `revalidator`                    | `async (key: string) => any` | `fetch`          | Called with `key` to produce a fresh value. |
+| `options.maxAge`                 | `number`                     | Instance default | Per-call override for `maxAge`. |
+| `options.staleWhileRevalidate`   | `number`                     | Instance default | Per-call override for `staleWhileRevalidate`. |
 
 **Returns:** `Promise<any>` — the cached or freshly fetched value.
 
@@ -441,11 +435,11 @@ get(D) → evict B → [C, A, D]
 ## Running the tests
 
 ```bash
-npm install
-npm test
+yarn install
+yarn test
 ```
 
-The test suite uses [Jest](https://jestjs.io/) with native ES module support.
+The test suite uses [Jest](https://jestjs.io/) with native ES module support, and runs a TypeScript type-check automatically before each test run.
 
 ```
  PASS  src/bucket.test.mjs
