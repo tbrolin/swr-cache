@@ -24,7 +24,6 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 22
-          registry-url: 'https://registry.npmjs.org'
 
       - name: Get Yarn cache directory
         id: yarn-cache-dir
@@ -39,6 +38,12 @@ jobs:
 
       - name: Install dependencies
         run: yarn install --immutable
+
+      - name: Setup Node.js for npm publish
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          registry-url: 'https://registry.npmjs.org'
 
       - name: Publish to npm
         run: npm publish --access public --provenance
